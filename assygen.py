@@ -118,7 +118,7 @@ class PickAndPlaceFileKicad(PickAndPlaceFile):
                 w = 1 * mm
                 h = 1 * mm
                 l = i[i_layer]
-		if l == "F.Cu":
+		if l == "top":
 		    layer = "Top"
 		else:
 		    layer = "Bottom"
@@ -127,7 +127,7 @@ class PickAndPlaceFileKicad(PickAndPlaceFile):
                 if(not ref in self.layers[layer]):
                     self.layers[layer][ref] = []
                 self.layers[layer][ref].append(PPComponent(cx, cy, w, h, i[i_dsg], i[i_desc], ref))
-
+        print(self.layers)
 
 #class PickAndPlaceFileKicad(PickAndPlaceFile):
 #    def __init__(self, fname):
@@ -175,11 +175,11 @@ class PickAndPlaceFileKicad(PickAndPlaceFile):
 def renderGerber(base_name, layer, canv):
     global gerberExtents
     if(layer == "Bottom"):
-        f_copper = base_name+".GBL"
-        f_overlay = base_name+".GBO"
+        f_copper = base_name+"-B.Cu.gbr"
+        f_overlay = base_name+"-B.SilkS.gbr"
     else:
-        f_copper = base_name+".GTL"
-        f_overlay = base_name+".GTO"
+        f_copper = base_name+"-F.Cu.gbr"
+        f_overlay = base_name+"-F.SilkS.gbr"
 
     canv.setLineWidth(0.0)
     gm = GerberMachine( "", canv )
@@ -208,7 +208,7 @@ def producePrintoutsForLayer(base_name, layer, canv):
 
 
 
-    pf = PickAndPlaceFileKicad(base_name+".CSV")
+    pf = PickAndPlaceFileKicad(base_name+".csv")
     ngrp =  pf.num_groups(layer)
 
     for page in range(0, (ngrp+5)/6):
@@ -233,6 +233,6 @@ def producePrintoutsForLayer(base_name, layer, canv):
 
 import sys
 canv = canvas.Canvas(sys.argv[1]+"_assy.pdf")
-#producePrintoutsForLayer(sys.argv[1], "Top", canv)
+producePrintoutsForLayer(sys.argv[1], "Top", canv)
 producePrintoutsForLayer(sys.argv[1], "Bottom", canv)
 canv.save()
