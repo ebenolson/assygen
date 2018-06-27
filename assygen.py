@@ -213,8 +213,9 @@ def producePrintoutsForLayer(base_name, layer, canv):
         canv.translate(gerberOffset[0], gerberOffset[1])
         if(layer == "Bottom"):
             canv.scale(gerberScale[0], gerberScale[1])
-#            canv.scale( -1, 1 )
-#            canv.translate(-0.5*gerberPageSize[0],0)
+            #canv.translate(0.5*gerberPageSize[0],0)
+            canv.scale( -1, 1 )
+            canv.translate(-0.75*gerberPageSize[0],0)
         else:
             canv.scale(gerberScale[0], gerberScale[1])
 
