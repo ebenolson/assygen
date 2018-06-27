@@ -85,7 +85,7 @@ class PickAndPlaceFileKicad(PickAndPlaceFile):
 	f= open(fname,'r')
 	rows=[]
 	for line in f:
-	    rows.append(line.split())
+	    rows.append(line.strip().split(','))
 	    
 
         self.col_map = [colors.Color(1,0,0), 
@@ -208,7 +208,7 @@ def producePrintoutsForLayer(base_name, layer, canv):
 
 
 
-    pf = PickAndPlaceFileKicad(base_name+".csv")
+    pf = PickAndPlaceFileKicad(base_name+"-all-pos.csv")
     ngrp =  pf.num_groups(layer)
 
     for page in range(0, (ngrp+5)/6):
